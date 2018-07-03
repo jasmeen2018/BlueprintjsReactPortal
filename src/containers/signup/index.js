@@ -4,6 +4,9 @@ import Navbar from '../../components/Navbar'
 import { connect } from 'react-redux'
 import {signupAction} from '../../actions/signup'
 import {IsValidForm} from '../../components/validation'
+import Loader from 'react-loader-advanced';
+import { Spinner, FormGroup, Button } from '@blueprintjs/core';
+
 class Signup extends React.Component{
   constructor(){
     super();
@@ -16,19 +19,20 @@ class Signup extends React.Component{
       },
       errors:{},
       errorMsg: '',
-      serverMsg: ''
+      serverMsg: '',
+      loader: false
     }
   }
-  onChange(key,event){
+  onChange = (key,event) => {
     const { signup } = this.state
     signup[key] = event.target.value
     this.setState({ signup })
   }
-  validateEmail(email) {
+  validateEmail = (email) => {
     var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email);
   };
-  onSubmit(e){
+  onSubmit = (e) => {
     e.preventDefault();
     let {signup} = this.state;
     let fields = ['username', 'email', 'password', 'confirm_password']
@@ -46,6 +50,7 @@ class Signup extends React.Component{
           this.setState({ errors })
         }
         else{
+           this.setState({ loader: true });
            this.props.dispatch(signupAction(this.state.signup)).then(res=>{
              if (res.status == 200) {
                 signup = {username: '', email: '', password: '', confirm_password: ''}
@@ -55,55 +60,69 @@ class Signup extends React.Component{
              else{
               this.setState({serverMsg: res.message})
              }
+             this.setState({ loader: false });
+           })
+           .catch(err => {
+            this.setState({ loader: false });
            })
         }
      }
 
   }
-  showError(key) {
+  showError = (key) => {
      let errors = this.state.errors
      if (errors[key] && errors[key].length) {
        return true
      }
      return false
    }
-   getError(key) {
+   getError = (key) => {
      let errors = this.state.errors
      if (errors[key] && errors[key].length) {
        return typeof errors[key] === 'object' ? errors[key].join(',') : errors[key]
      }
      return false
    }
+
   render(){
     return(
-      <div>
+      <Loader show={this.state.loader} message={<Spinner intent="success" />}>
         <div>
-          <Navbar />
-        </div>
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <div style={{width: '500px',margin: '0 auto',marginTop: '200px',border: '1px solid black',padding: '50px',backgroundColor: '#e8e6e6'}}>
-            <div style={{height: '70px'}}>
-              <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Username" type="text" dir="auto" onChange={this.onChange.bind(this,'username')}/>
-              {!!this.showError('username') ? <p className="error-message">{this.getError('username')} </p> : null}
-            </div>
-            <div style={{height: '70px'}}>
-              <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Email" type="text" dir="auto" onChange={this.onChange.bind(this,'email')}/>
-              {!!this.showError('email') ? <p className="error-message">{this.getError('email')} </p> : null}
-            </div>
-            <div style={{height: '70px'}}>
-              <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Password" type="password" dir="auto" onChange={this.onChange.bind(this,'password')}/>
-              {!!this.showError('password') ? <p className="error-message">{this.getError('password')} </p> : null}
-            </div>
-            <div style={{height: '70px'}}>
-              <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Confirm Password" type="password" dir="auto" onChange={this.onChange.bind(this,'confirm_password')}/>
-              {!!this.showError('confirm_password') ? <p className="error-message">{this.getError('confirm_password')} </p> : null}
-            </div>
-            <button style={{width: 400,height: '50px'}} type="submit" className="pt-button .modifier">Signup</button>
-            {this.state.serverMsg != '' && <p className="error-message" style={{textAlign: 'center', marginTop: 20}}>{this.state.serverMsg}</p>}
+          <div>
+            <Navbar />
           </div>
-        </form>
-      </div>
-
+          <form onSubmit={this.onSubmit}>
+            <div style={{width: '500px',margin: '0 auto',marginTop: '200px',border: '1px solid black',padding: '50px',backgroundColor: '#e8e6e6'}}>
+              <FormGroup
+                    helperText={!!this.showError('username')?this.getError('username'):null}
+                    intent="danger"
+                >
+                <input className="pt-input" placeholder="Username" style={{width: "100%", height: '50px'}} type="text" dir="auto" onChange={this.onChange.bind(this,'username')}/>
+              </FormGroup>
+              <FormGroup
+                    helperText={!!this.showError('email')?this.getError('email'):null}
+                    intent="danger"
+                >
+                <input className="pt-input" style={{width: "100%",height: '50px'}} placeholder="Email" type="text" dir="auto" onChange={this.onChange.bind(this,'email')}/>
+              </FormGroup>
+              <FormGroup
+                    helperText={!!this.showError('password')?this.getError('password'):null}
+                    intent="danger"
+                >
+                <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Password" type="password" dir="auto" onChange={this.onChange.bind(this,'password')}/>
+              </FormGroup>
+              <FormGroup
+                    helperText={!!this.showError('confirm_password')?this.getError('confirm_password'):null}
+                    intent="danger"
+                >
+                <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Confirm Password" type="password" dir="auto" onChange={this.onChange.bind(this,'confirm_password')}/>
+              </FormGroup>
+              <Button style={{width: '100%'}} large type="submit">Signup</Button>
+              {this.state.serverMsg != '' && <p className="error-message" style={{textAlign: 'center', marginTop: 20}}>{this.state.serverMsg}</p>}
+            </div>
+          </form>
+        </div>
+      </Loader>
     )
   }
 }

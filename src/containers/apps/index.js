@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import { Route, Switch,BrowserRouter,Redirect } from 'react-router-dom'
 import Dashboard from '../../containers/Dashboard'
 import EditProfile from '../../containers/EditProfile'
+import RoadMaps from '../../containers/RoadMaps'
+import RoadMap from '../../containers/RoadMaps/RoadMap'
 
 const checkAuth = () =>{
 	const token = localStorage.getItem('token');
@@ -45,8 +47,8 @@ export default class Apps extends React.Component{
             <PublicRoute path="/signup" component={Signup} />
             <AuthRoute path="/dashboard" component={props=><Dashboard {...props} />} />
 						<AuthRoute path="/editprofile" component={props=><EditProfile {...props} />} />
-
-
+            <AuthRoute path="/roadmaps" component={RoadMaps} />
+            <AuthRoute path="/roadmap/:id" component={RoadMap} />
           </Switch>
         </BrowserRouter>
       </div>

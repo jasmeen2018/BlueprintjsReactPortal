@@ -28,6 +28,29 @@
   color: green;
 }
 
+.Loader {
+  position: inherit!important;
+}
+
+ul.roadmaps {
+  list-style-type: none;
+  margin-top: 20px;
+}
+
+ul.roadmaps > a {
+  display: inline-block;
+}
+
+ul.roadmaps > a > li > span {
+  margin-right: 2px;
+  padding: 20px;
+  border: 1px solid #eee;
+} 
+
+.clearfix {
+  clear: both;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
