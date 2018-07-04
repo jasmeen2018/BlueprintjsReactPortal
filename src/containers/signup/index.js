@@ -5,7 +5,10 @@ import { connect } from 'react-redux'
 import {signupAction} from '../../actions/signup'
 import {IsValidForm} from '../../components/validation'
 import Loader from 'react-loader-advanced';
-import { Spinner, FormGroup, Button } from '@blueprintjs/core';
+import { Spinner, FormGroup, Button, Card, Elevation } from '@blueprintjs/core';
+import ErrorCallout from '../../components/ErrorCallout';
+import { centeredElements, fullHeight } from '../../styles/commonStyles';
+import FormCardContainer from '../../components/FormCardContainer';
 
 class Signup extends React.Component{
   constructor(){
@@ -86,13 +89,13 @@ class Signup extends React.Component{
 
   render(){
     return(
-      <Loader show={this.state.loader} message={<Spinner intent="success" />}>
-        <div>
-          <div>
-            <NavMenubar />
-          </div>
-          <form onSubmit={this.onSubmit}>
-            <div style={{width: '500px',margin: '0 auto',marginTop: '200px',border: '1px solid black',padding: '50px',backgroundColor: '#e8e6e6'}}>
+      <Loader contentStyle={fullHeight} show={this.state.loader} message={<Spinner intent="success" />}>
+        <NavMenubar />
+        <div style={{...centeredElements, ...fullHeight}}>
+            <FormCardContainer
+              title="Signup"
+            >
+              <form onSubmit={this.onSubmit}>
               <FormGroup
                     helperText={!!this.showError('username')?this.getError('username'):null}
                     intent="danger"
@@ -109,18 +112,18 @@ class Signup extends React.Component{
                     helperText={!!this.showError('password')?this.getError('password'):null}
                     intent="danger"
                 >
-                <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Password" type="password" dir="auto" onChange={this.onChange.bind(this,'password')}/>
+                <input className="pt-input" style={{width: "100%",height: '50px'}} placeholder="Password" type="password" dir="auto" onChange={this.onChange.bind(this,'password')}/>
               </FormGroup>
               <FormGroup
                     helperText={!!this.showError('confirm_password')?this.getError('confirm_password'):null}
                     intent="danger"
                 >
-                <input className="pt-input" style={{width: "400px",height: '50px'}} placeholder="Confirm Password" type="password" dir="auto" onChange={this.onChange.bind(this,'confirm_password')}/>
+                <input className="pt-input" style={{width: "100%",height: '50px'}} placeholder="Confirm Password" type="password" dir="auto" onChange={this.onChange.bind(this,'confirm_password')}/>
               </FormGroup>
-              <Button style={{width: '100%'}} large type="submit">Signup</Button>
-              {this.state.serverMsg != '' && <p className="error-message" style={{textAlign: 'center', marginTop: 20}}>{this.state.serverMsg}</p>}
-            </div>
-          </form>
+                <Button intent="success" large style={{ width: '100%' }} type="submit">Signup</Button>
+                <ErrorCallout msg={this.state.serverMsg} />
+              </form>
+            </FormCardContainer>
         </div>
       </Loader>
     )

@@ -6,6 +6,8 @@ import {editProfile, updateProfile} from '../../actions/editprofile'
 import Loader from 'react-loader-advanced';
 import {IsValidForm} from '../../components/validation'
 import { Spinner, FormGroup, Button } from '@blueprintjs/core';
+import FormCardContainer from '../../components/FormCardContainer';
+import { centeredElements, fullHeight } from '../../styles/commonStyles';
 class EditProfile extends React.Component{
   constructor(){
     super();
@@ -19,6 +21,7 @@ class EditProfile extends React.Component{
       serverMsg: '',
       successMsg: '',
       loader: false
+
     }
   }
   componentWillMount(){
@@ -89,34 +92,39 @@ class EditProfile extends React.Component{
   render(){
     let {profile} = this.state;
     return(
-      <div>
-        <Loader show={this.state.loader} message={<Spinner intent="success" />} />
+      
+        <Loader contentStyle={fullHeight} show={this.state.loader} message={<Spinner intent="success" />}>
+        <div style={{...centeredElements, ...fullHeight}}>
+        <FormCardContainer
+          title="Edit profile"
+        >
         <form onSubmit={this.onSubmit.bind(this)}>
-          <div style={{width: '500px',margin: '0 auto',marginTop: '200px',border: '1px solid black',padding: '50px',backgroundColor: '#e8e6e6'}}>
-            <FormGroup
+          <FormGroup
                 helperText={!!this.showError('email')?this.getError('email'):null}
                 intent="danger"
             >
-              <input className="pt-input" style={{width: "400px",height: '50px'}} value={profile && profile.email} placeholder="Email" type="email" dir="auto" onChange={this.onChange.bind(this,'email')}/>
+              <input className="pt-input" style={{width: "100%",height: '50px'}} value={profile && profile.email} placeholder="Email" type="email" dir="auto" onChange={this.onChange.bind(this,'email')}/>
             </FormGroup>
             <FormGroup
                 helperText={!!this.showError('password')?this.getError('password'):null}
                 intent="danger"
             >
-              <input className="pt-input" style={{width: "400px",height: '50px'}} value={profile && profile.password} placeholder="Password" type="password" dir="auto" onChange={this.onChange.bind(this,'password')}/>
+              <input className="pt-input" style={{width: "100%",height: '50px'}} value={profile && profile.password} placeholder="Password" type="password" dir="auto" onChange={this.onChange.bind(this,'password')}/>
             </FormGroup>
             <FormGroup
                 helperText={!!this.showError('confirm_password')?this.getError('confirm_password'):null}
                 intent="danger"
             >
-              <input className="pt-input" style={{width: "400px",height: '50px'}} value={profile && profile.confirm_password} placeholder="Confirm Password" type="password" dir="auto" onChange={this.onChange.bind(this,'confirm_password')}/>
+              <input className="pt-input" style={{width: "100%",height: '50px'}} value={profile && profile.confirm_password} placeholder="Confirm Password" type="password" dir="auto" onChange={this.onChange.bind(this,'confirm_password')}/>
             </FormGroup>
-            <Button large style={{ width: '100%' }} type="submit">Update</Button>
+            <Button intent="success" large style={{ width: '100%' }} type="submit">Update</Button>
             {this.state.serverMsg != '' && <p className="error-message" style={{textAlign: 'center', marginTop: 20}}>{this.state.serverMsg}</p>}
             {this.state.successMsg != '' && <p className="success-message" style={{textAlign: 'center', marginTop: 20}}>{this.state.successMsg}</p>}
-          </div>
         </form>
-      </div>
+        </FormCardContainer>
+        </div>
+        </Loader>
+      
 
     )
   }
