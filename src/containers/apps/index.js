@@ -55,16 +55,3 @@ export default class Apps extends React.Component{
     )
   }
 }
-// export default connect(
-// state => (
-//   {
-//
-//   },
-//   mapDispatch
-// )
-// )(Apps)
-//
-// const mapDispatch = dispatch => {
-// const allActionProps = Object.assign({}, dispatch)
-// return allActionProps
-// }

@@ -28,8 +28,15 @@
   color: green;
 }
 
-.Loader {
-  position: inherit!important;
+.Loader{
+  position: fixed !important;
+  width: 100%;
+  left: 0;
+  height: 100%;
+  top: 0;
+}
+a, a:hover{
+  text-decoration: none;
 }
 
 ul.roadmaps {
@@ -49,6 +56,11 @@ ul.roadmaps > a > li > span {
 
 .clearfix {
   clear: both;
+}
+.menuList{
+  width: 400px;
+  margin: auto;
+  border: solid 1px;
 }
 
 @keyframes App-logo-spin {

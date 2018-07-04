@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {editAction} from '../../actions/editprofile'
+import { Spinner, FormGroup, Button } from '@blueprintjs/core';
 class Dashboard extends React.Component{
   onSubmit = () => {
     localStorage.removeItem('token')
@@ -19,9 +20,15 @@ class Dashboard extends React.Component{
     return(
       <div style={{textAlign: 'center',marginTop: 20}}>
         <h1 >Welcome to Dashboard</h1>
-        <button style={{width: 400,height: '40px'}} type="button" className="pt-button .modifier" onClick={this.onSubmit}>Logout</button><br /><br />
-        <button style={{width: 400,height: '40px'}} type="button" className="pt-button .modifier" onClick={this.openRoadmaps}>Roadmaps</button><br /><br />
-        <button style={{width: 400,height: '40px'}} type="button" className="pt-button .modifier" onClick={this.onEdit}>Edit Profile</button>
+        <FormGroup>
+          <Button large style={{ width: 400 }} type="button" onClick={this.onSubmit}>Logout</Button>
+        </FormGroup>
+        <FormGroup>
+          <Button large style={{ width: 400 }} type="button" onClick={this.openRoadmaps}>Roadmaps</Button>
+        </FormGroup>
+        <FormGroup>
+          <Button large style={{ width: 400 }} type="button" onClick={this.onEdit}>Edit Profile</Button>
+        </FormGroup>
 
     </div>
     )

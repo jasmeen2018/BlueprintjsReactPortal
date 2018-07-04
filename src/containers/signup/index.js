@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Navbar from '../../components/Navbar'
+import NavMenubar from '../../components/Navbar'
 import { connect } from 'react-redux'
 import {signupAction} from '../../actions/signup'
 import {IsValidForm} from '../../components/validation'
@@ -89,7 +89,7 @@ class Signup extends React.Component{
       <Loader show={this.state.loader} message={<Spinner intent="success" />}>
         <div>
           <div>
-            <Navbar />
+            <NavMenubar />
           </div>
           <form onSubmit={this.onSubmit}>
             <div style={{width: '500px',margin: '0 auto',marginTop: '200px',border: '1px solid black',padding: '50px',backgroundColor: '#e8e6e6'}}>
