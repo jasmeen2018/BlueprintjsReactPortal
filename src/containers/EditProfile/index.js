@@ -19,7 +19,6 @@ class EditProfile extends React.Component{
       serverMsg: '',
       successMsg: '',
       loader: false
-
     }
   }
   componentWillMount(){
